@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ember & Oak Roasters — Small-batch coffee, roasted in Gorakhpur</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bone: #E9E2D2;
+    --bone-dim: #DED5C0;
+    --ink: #1C1712;
+    --ink-soft: #4A423A;
+    --ember: #B85C1E;
+    --ember-deep: #8E4415;
+    --leaf: #3E4A38;
+    --line: rgba(28,23,18,0.14);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bone);
+    color:var(--ink);
+    font-family:'Work Sans', sans-serif;
+    line-height:1.5;
+  }
+  h1,h2,h3,.display{
+    font-family:'Newsreader', serif;
+    font-weight:500;
+    letter-spacing:-0.01em;
+  }
+  a{color:inherit;}
+  img{max-width:100%;display:block;}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 32px;}
+
+  /* NAV */
+  nav{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:28px 32px;
+    max-width:1120px;margin:0 auto;
+  }
+  .brand{font-family:'Newsreader', serif;font-size:22px;font-weight:600;}
+  .brand span{color:var(--ember-deep);}
+  .nav-links{display:flex;gap:32px;font-size:15px;}
+  .nav-links a{text-decoration:none;border-bottom:1px solid transparent;transition:border-color .2s;}
+  .nav-links a:hover{border-color:var(--ember-deep);}
+  .nav-cta{
+    background:var(--ink);color:var(--bone);
+    padding:10px 20px;border-radius:2px;text-decoration:none;
+    font-size:14px;
+  }
+
+  /* HERO */
+  .hero{
+    display:grid;grid-template-columns:1.15fr 0.85fr;gap:64px;
+    padding:56px 32px 96px;max-width:1120px;margin:0 auto;
+    align-items:end;
+  }
+  .hero h1{
+    font-size:clamp(42px, 5.5vw, 72px);
+    line-height:1.04;
+    max-width:11ch;
+  }
+  .hero p.sub{
+    margin-top:24px;max-width:42ch;
+    font-size:18px;color:var(--ink-soft);
+  }
+  .hero-actions{margin-top:36px;display:flex;gap:16px;align-items:center;}
+  .btn-primary{
+    background:var(--ember-deep);color:var(--bone);
+    padding:14px 26px;border-radius:2px;text-decoration:none;
+    font-size:15px;font-weight:500;
+    transition:background .2s;
+  }
+  .btn-primary:hover{background:var(--ink);}
+  .btn-text{font-size:15px;text-decoration:underline;text-underline-offset:3px;}
+
+  .roast-card{
+    background:var(--ink);color:var(--bone);
+    padding:32px;border-radius:2px;
+    align-self:stretch;
+    display:flex;flex-direction:column;justify-content:space-between;
+  }
+  .roast-card .label{font-size:13px;color:#A99C8A;margin-bottom:6px;}
+  .roast-card .roast-name{font-family:'Newsreader',serif;font-size:26px;margin-bottom:18px;}
+  .roast-meta{display:flex;flex-direction:column;gap:10px;font-size:14px;border-top:1px solid rgba(233,226,210,0.18);padding-top:18px;}
+  .roast-meta div{display:flex;justify-content:space-between;color:#CFC5B3;}
+  .roast-meta strong{color:var(--bone);font-weight:500;}
+
+  /* STRIP */
+  .strip{
+    border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+    padding:22px 0;overflow:hidden;
+  }
+  .strip-track{
+    display:flex;gap:56px;white-space:nowrap;
+    font-family:'Newsreader',serif;font-size:19px;color:var(--ink-soft);
+    animation:scroll 26s linear infinite;
+  }
+  .strip-track span{opacity:.85;}
+  @keyframes scroll{
+    0%{transform:translateX(0);}
+    100%{transform:translateX(-50%);}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .strip-track{animation:none;overflow-x:auto;}
+  }
+
+  /* ORIGINS */
+  .origins{padding:100px 32px;max-width:1120px;margin:0 auto;}
+  .section-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:48px;flex-wrap:wrap;}
+  .section-head h2{font-size:36px;max-width:14ch;}
+  .section-head p{max-width:36ch;color:var(--ink-soft);font-size:15px;}
+  .origin-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);}
+  .origin-card{background:var(--bone);padding:32px;}
+  .origin-card .place{font-size:13px;color:var(--ember-deep);margin-bottom:12px;}
+  .origin-card h3{font-size:22px;margin-bottom:10px;}
+  .origin-card p{font-size:14px;color:var(--ink-soft);}
+  .origin-card .notes{margin-top:18px;padding-top:16px;border-top:1px solid var(--line);font-size:13px;color:var(--ink-soft);}
+
+  /* PROCESS */
+  .process{background:var(--ink);color:var(--bone);padding:100px 32px;}
+  .process .wrap{display:grid;grid-template-columns:0.8fr 1.2fr;gap:64px;}
+  .process h2{font-size:34px;max-width:12ch;color:var(--bone);}
+  .process p.lead{margin-top:20px;color:#C9BEAC;font-size:15px;max-width:34ch;}
+  .steps{display:flex;flex-direction:column;}
+  .step{
+    display:grid;grid-template-columns:64px 1fr;gap:20px;
+    padding:26px 0;border-top:1px solid rgba(233,226,210,0.16);
+  }
+  .step:last-child{border-bottom:1px solid rgba(233,226,210,0.16);}
+  .step .num{font-family:'Newsreader',serif;font-size:15px;color:#9C8F7B;}
+  .step h4{font-size:17px;margin-bottom:6px;font-weight:600;font-family:'Work Sans',sans-serif;}
+  .step p{font-size:14px;color:#C9BEAC;max-width:48ch;}
+
+  /* CONTACT */
+  .contact{padding:100px 32px 60px;max-width:1120px;margin:0 auto;}
+  .contact-box{
+    background:var(--bone-dim);border:1px solid var(--line);
+    padding:56px;display:grid;grid-template-columns:1fr auto;gap:40px;align-items:center;
+  }
+  .contact-box h2{font-size:32px;max-width:14ch;}
+  .contact-box p{margin-top:12px;color:var(--ink-soft);font-size:15px;max-width:38ch;}
+  .contact-form{display:flex;gap:0;border:1px solid var(--ink);}
+  .contact-form input{
+    border:none;background:transparent;padding:14px 18px;
+    font-family:'Work Sans',sans-serif;font-size:15px;width:240px;color:var(--ink);
+  }
+  .contact-form input:focus{outline:2px solid var(--ember-deep);outline-offset:-2px;}
+  .contact-form button{
+    border:none;background:var(--ink);color:var(--bone);
+    padding:0 22px;font-size:14px;cursor:pointer;
+  }
+  .contact-form button:hover{background:var(--ember-deep);}
+  .form-msg{margin-top:12px;font-size:13px;color:var(--leaf);min-height:16px;}
+
+  footer{
+    padding:32px;text-align:center;font-size:13px;color:var(--ink-soft);
+    border-top:1px solid var(--line);
+  }
+
+  @media (max-width:860px){
+    nav{flex-wrap:wrap;gap:16px;}
+    .nav-links{display:none;}
+    .hero{grid-template-columns:1fr;}
+    .origin-grid{grid-template-columns:1fr;}
+    .process .wrap{grid-template-columns:1fr;}
+    .contact-box{grid-template-columns:1fr;}
+    .contact-form{flex-direction:column;}
+    .contact-form input{width:100%;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="brand">Ember <span>&</span> Oak</div>
+  <div class="nav-links">
+    <a href="#origins">Origins</a>
+    <a href="#process">Process</a>
+    <a href="#contact">Visit</a>
+  </div>
+  <a class="nav-cta" href="#contact">Order roast</a>
+</nav>
+
+<section class="hero">
+  <div>
+    <h1>Roasted in small batches, three days a week.</h1>
+    <p class="sub">We roast on a 1955 cast-iron drum in Gorakhpur, twelve kilos at a time, and ship within 48 hours of the batch cooling.</p>
+    <div class="hero-actions">
+      <a class="btn-primary" href="#contact">Order this week's roast</a>
+      <a class="btn-text" href="#process">See how it's roasted</a>
+    </div>
+  </div>
+  <div class="roast-card">
+    <div>
+      <div class="label">This week's roast</div>
+      <div class="roast-name">Chikmagalur Estate, Washed</div>
+    </div>
+    <div class="roast-meta">
+      <div><span>Roast date</span> <strong>Mon, 4 batches</strong></div>
+      <div><span>Altitude</span> <strong>1,340m</strong></div>
+      <div><span>Tasting notes</span> <strong>Jaggery, orange peel</strong></div>
+      <div><span>Bags left</span> <strong>37 of 90</strong></div>
+    </div>
+  </div>
+</section>
+
+<div class="strip">
+  <div class="strip-track">
+    <span>Chikmagalur</span><span>Coorg</span><span>Araku Valley</span><span>Wayanad</span><span>BBA Estate</span>
+    <span>Chikmagalur</span><span>Coorg</span><span>Araku Valley</span><span>Wayanad</span><span>BBA Estate</span>
+  </div>
+</div>
+
+<section class="origins" id="origins">
+  <div class="section-head">
+    <h2>Three farms we buy direct from</h2>
+    <p>No brokers between us and the grower. Prices are agreed before harvest, every season.</p>
+  </div>
+  <div class="origin-grid">
+    <div class="origin-card">
+      <div class="place">Chikmagalur, Karnataka</div>
+      <h3>Beluru Estate</h3>
+      <p>Shade-grown under silver oak, hand-picked, washed and sun-dried on raised beds.</p>
+      <div class="notes">Buying since 2021 · 800kg/season</div>
+    </div>
+    <div class="origin-card">
+      <div class="place">Araku Valley, Andhra Pradesh</div>
+      <h3>Adivasi Cooperative</h3>
+      <p>Organic by necessity — no fertiliser access — farmed by a 200-family tribal collective.</p>
+      <div class="notes">Buying since 2023 · 350kg/season</div>
+    </div>
+    <div class="origin-card">
+      <div class="place">Coorg, Karnataka</div>
+      <h3>Thandiyanamole Farm</h3>
+      <p>Old-growth Kent variety trees, natural process, dried slow over four weeks.</p>
+      <div class="notes">Buying since 2022 · 600kg/season</div>
+    </div>
+  </div>
+</section>
+
+<section class="process" id="process">
+  <div class="wrap">
+    <div>
+      <h2>From green bean to your cup</h2>
+      <p class="lead">Every batch is logged — bean origin, drum temperature, first crack time — so a cup you loved can be roasted the same way again.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="num">01</div>
+        <div><h4>Cupping</h4><p>Every incoming lot is cupped blind before we commit to buying it for the year.</p></div>
+      </div>
+      <div class="step">
+        <div class="num">02</div>
+        <div><h4>Roasting</h4><p>12kg drum batches, roasted to a profile logged and tuned per origin.</p></div>
+      </div>
+      <div class="step">
+        <div class="num">03</div>
+        <div><h4>Resting</h4><p>Bags rest 5 days post-roast to let CO2 escape before they're sealed.</p></div>
+      </div>
+      <div class="step">
+        <div class="num">04</div>
+        <div><h4>Shipping</h4><p>Dispatched within 48 hours of roast, one-way valve bags, no plastic void-fill.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="contact-box">
+    <div>
+      <h2>Get next week's roast list</h2>
+      <p>One email a week — what's roasting, what's sold out, and first access to limited lots.</p>
+      <form class="contact-form" id="signupForm">
+        <input type="email" id="emailInput" placeholder="you@email.com" required>
+        <button type="submit">Notify me</button>
+      </form>
+      <div class="form-msg" id="formMsg"></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  Ember & Oak Roasters · Gorakhpur, Uttar Pradesh · Roasted to order, not to shelf.
+</footer>
+
+<script>
+  const form = document.getElementById('signupForm');
+  const msg = document.getElementById('formMsg');
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    const email = document.getElementById('emailInput').value;
+    msg.textContent = "Added " + email + " — you'll get Monday's roast list.";
+    form.reset();
+  });
+</script>
+
+</body>
+</html>
